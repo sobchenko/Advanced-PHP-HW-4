@@ -4,17 +4,12 @@ namespace Controllers;
 
 use Core;
 
-class HomeController extends Core\Controller
+class HomeController extends Core\Controller implements ControllerInterface
 {
-    public function __construct()
-    {
-    }
-
     public function index($name = '')
     {
-        var_dump($name);
         $university = $this->model(ucfirst($name));
         $university->name = 'CNU';
-        $this->view('index', ['name' => $university->name]);
+        $this->view('home', ['name' => $university->name]);
     }
 }

@@ -6,7 +6,7 @@ class App
     protected $method = 'index';
     protected $params = [];
 
-    public function __construct()
+    public function __construct($environment)
     {
         $url = $this->parseUrl();
 
@@ -15,8 +15,15 @@ class App
             unset($url[0]);
         }
 
-        $ctrl =  'Controllers\\'.$this->controller;
-        $this->controller = new $ctrl();
+        $cache = false;
+        $debug = true;
+        if ($environment == 'live') {
+            $cache = '../app/cache/';
+            $debug = false;
+        }
+
+        $ctrl = 'Controllers\\'.$this->controller;
+        $this->controller = new $ctrl($cache, $debug);
 
         if (isset($url[1])) {
             if (method_exists($this->controller, $url[1])) {

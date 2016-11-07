@@ -4,3 +4,4 @@ parameters:
     db_name: geekhub_hw4
     db_user: root
     db_pass:
+    environment: dev
