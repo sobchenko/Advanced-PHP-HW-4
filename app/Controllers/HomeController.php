@@ -12,8 +12,9 @@ class HomeController extends Core\Controller
 
     public function index($name = '')
     {
+        var_dump($name);
         $university = $this->model(ucfirst($name));
         $university->name = 'CNU';
-        print_r($university);
+        $this->view('index', ['name' => $university->name]);
     }
 }
