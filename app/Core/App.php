@@ -1,7 +1,5 @@
 <?php
 
-use Controllers;
-
 class App
 {
     protected $controller = 'HomeController';
@@ -16,9 +14,8 @@ class App
             $this->controller = ucfirst($url[0]).'Controller';
             unset($url[0]);
         }
-        require_once '../app/Controllers/HomeController.php';
 
-        $ctrl = 'Controllers\\'.$this->controller;
+        $ctrl =  'Controllers\\'.$this->controller;
         $this->controller = new $ctrl();
 
         if (isset($url[1])) {

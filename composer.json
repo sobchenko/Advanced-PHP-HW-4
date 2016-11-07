@@ -1,0 +1,12 @@
+{
+    "require": {
+        "symfony/yaml": "^3.1"
+    },
+    "autoload": {
+        "classmap": [
+            "app/Models",
+            "app/Core",
+            "app/Controllers"
+        ]
+    }
+}

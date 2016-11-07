@@ -1,8 +1,6 @@
 <?php
 
-require_once 'Core/App.php';
-require_once 'Core/Controller.php';
-require_once 'Core/DataStorage.php';
+require_once  __DIR__ . '/../vendor/autoload.php';
 
-$db = new Core\DataStorage('localhost', 'root', 'test', 'test');
-var_dump($db);
+//$db = new Core\DataStorage('localhost', 'root', 'test', 'test');
+//var_dump($db);
