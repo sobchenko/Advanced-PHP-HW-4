@@ -1,4 +1,4 @@
 vendor/
 app/cache
 composer.phar
-config/parameters.yml
+parameters.yml
