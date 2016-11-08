@@ -11,7 +11,6 @@ class App
     {
         $url = isset($_GET['url']) ? $_GET['url'] : null;
         $url = ($db->error && ($url != 'dbcreate')) ? 'dberror/index' : $url;
-
         $url = $this->parseUrl($url);
         $this->setBaseUrl();
 
@@ -47,9 +46,10 @@ class App
         }
     }
 
-    protected function setBaseUrl(){
+    protected function setBaseUrl()
+    {
         $this->baseUrl = sprintf(
-            "%s://%s",
+            '%s://%s',
             isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
             $_SERVER['SERVER_NAME']
         );

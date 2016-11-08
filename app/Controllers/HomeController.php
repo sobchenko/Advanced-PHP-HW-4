@@ -8,9 +8,9 @@ class HomeController extends Core\Controller implements ControllerInterface
 {
     public function index($param = '')
     {
-//        $university = $this->model(ucfirst($param));
+        $message = count($this->db->tableList) ? '' : 'DB schema doesn\'t exist. Create DB schema!';
         $this->view('home', [
-            'message' => ''
+            'message' => $message,
         ]);
     }
 }

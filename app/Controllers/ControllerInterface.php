@@ -4,7 +4,6 @@ namespace Controllers;
 
 interface ControllerInterface
 {
-
     /**
      * @param $param for front controller
      */

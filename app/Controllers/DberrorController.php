@@ -13,7 +13,7 @@ class DberrorController extends Core\Controller implements ControllerInterface
             $message = $this->db->error;
             if (strpos($this->db->error, 'Unknown database')) {
                 $view = 'dbinit';
-                $message = "DB '{$this->db->getDbName()}' doesn'n exist. Would you like to create new db '{$this->db->getDbName()}'?";
+                $message = "DB '{$this->db->getDbName()}' doesn't exist. Would you like to create new db '{$this->db->getDbName()}'?";
             }
             $this->view($view, ['message' => $message]);
         }

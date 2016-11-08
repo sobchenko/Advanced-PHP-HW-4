@@ -20,6 +20,7 @@ abstract class Controller
     protected function model($model)
     {
         $init_model = 'Models\\'.ucfirst($model);
+
         return new $init_model();
     }
 
