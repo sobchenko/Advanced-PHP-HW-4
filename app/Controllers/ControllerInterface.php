@@ -4,8 +4,9 @@ namespace Controllers;
 
 interface ControllerInterface
 {
+
     /**
-     * @param params $name
+     * @param $param for front controller
      */
-    public function index($name = '');
+    public function index($param = '');
 }

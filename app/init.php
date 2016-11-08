@@ -28,3 +28,4 @@ $db = new Core\DataStorage(
     $params['parameters']['db_user'],
     $params['parameters']['db_pass']
 );
+

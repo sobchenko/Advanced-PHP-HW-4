@@ -6,10 +6,11 @@ use Core;
 
 class HomeController extends Core\Controller implements ControllerInterface
 {
-    public function index($name = '')
+    public function index($param = '')
     {
-        $university = $this->model(ucfirst($name));
-        $university->name = 'CNU';
-        $this->view('home', ['name' => $university->name]);
+//        $university = $this->model(ucfirst($param));
+        $this->view('home', [
+            'message' => ''
+        ]);
     }
 }

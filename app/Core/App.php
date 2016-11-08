@@ -2,15 +2,20 @@
 
 class App
 {
+    protected $baseUrl;
     protected $controller = 'HomeController';
     protected $method = 'index';
     protected $params = [];
 
-    public function __construct($environment)
+    public function __construct($environment, \Core\DataStorage $db)
     {
-        $url = $this->parseUrl();
+        $url = isset($_GET['url']) ? $_GET['url'] : null;
+        $url = ($db->error && ($url != 'dbcreate')) ? 'dberror/index' : $url;
 
-        if (file_exists('../app/Controllers/'.ucfirst($url[0]).'Controller.php')) {
+        $url = $this->parseUrl($url);
+        $this->setBaseUrl();
+
+        if (isset($url[0]) && file_exists('../app/Controllers/'.ucfirst($url[0]).'Controller.php')) {
             $this->controller = ucfirst($url[0]).'Controller';
             unset($url[0]);
         }
@@ -23,7 +28,7 @@ class App
         }
 
         $ctrl = 'Controllers\\'.$this->controller;
-        $this->controller = new $ctrl($cache, $debug);
+        $this->controller = new $ctrl($db, $this->baseUrl, $cache, $debug);
 
         if (isset($url[1])) {
             if (method_exists($this->controller, $url[1])) {
@@ -35,10 +40,18 @@ class App
         call_user_func_array([$this->controller, $this->method], $this->params);
     }
 
-    protected function parseUrl()
+    protected function parseUrl($url)
     {
-        if (isset($_GET['url'])) {
-            return explode('/', filter_var(strtolower(rtrim($_GET['url'], '/')), FILTER_SANITIZE_URL));
+        if (isset($url)) {
+            return explode('/', filter_var(strtolower(rtrim($url, '/')), FILTER_SANITIZE_URL));
         }
+    }
+
+    protected function setBaseUrl(){
+        $this->baseUrl = sprintf(
+            "%s://%s",
+            isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+            $_SERVER['SERVER_NAME']
+        );
     }
 }
