@@ -22,6 +22,7 @@ abstract class AbstractController implements ControllerInterface
     protected function model($model)
     {
         $init_model = 'Models\\'.ucfirst($model);
+
         return new $init_model($this->db->handler);
     }
 

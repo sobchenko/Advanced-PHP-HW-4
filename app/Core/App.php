@@ -10,6 +10,7 @@ class App
     public function __construct($environment, \Core\DataStorage $db)
     {
         $url = isset($_GET['url']) ? $_GET['url'] : null;
+
         $url = ($db->error && ($url != 'dbcreate')) ? 'dberror/index' : $url;
         $url = $this->parseUrl($url);
         $this->setBaseUrl();

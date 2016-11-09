@@ -1,0 +1,19 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+    {{ data }}
+
+    {% if generate_section %}
+        <h1>Sample data generation</h1>
+        <form method="POST" action="{{ baseUrl ~ '/dbsampledata/generate' }}">
+            <div class="row">
+                <label for="items-number">Number of items to generate:</label>
+                <input class="form-control" type="text" id="items-number" name="items_number" value="{{ items_number }}">
+            </div>
+            <div class="row">
+                <input class="btn btn-default" type="submit" value="Generate">
+            </div>
+        </form>
+    {% endif %}
+
+{% endblock %}

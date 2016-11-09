@@ -10,7 +10,7 @@ class CountriesController extends AbstractController
         $model = $this->model(ucfirst($model_name));
         $this->view($model_name, [
             'message' => '',
-            'data' => print_r($model->findAll(), true)
+            'data' => print_r($model->findAll(), true),
         ]);
     }
 }
