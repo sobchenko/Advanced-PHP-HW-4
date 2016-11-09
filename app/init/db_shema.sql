@@ -11,7 +11,12 @@ CREATE TABLE IF NOT EXISTS `countries` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*!40000 ALTER TABLE `countries` DISABLE KEYS */;
+INSERT INTO `countries` (`id`, `name`, `iso_code`, `flag`) VALUES
+  (1, 'Ukraine', 'UA', NULL);
+/*!40000 ALTER TABLE `countries` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `departments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -51,8 +56,8 @@ CREATE TABLE IF NOT EXISTS `events` (
 
 CREATE TABLE IF NOT EXISTS `events_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `short_name` varchar(25) NOT NULL DEFAULT '0',
-  `name` varchar(250) NOT NULL DEFAULT '0',
+  `short_name` varchar(25) NOT NULL,
+  `name` varchar(250) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -61,14 +66,14 @@ CREATE TABLE IF NOT EXISTS `events_type` (
 CREATE TABLE IF NOT EXISTS `faculty` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `inn` int(10) DEFAULT NULL,
-  `location_id` int(11) DEFAULT NULL,
-  `staff_type_id` int(11) DEFAULT NULL,
-  `first_name` varchar(100) NOT NULL DEFAULT '0',
-  `last_name` varchar(100) NOT NULL DEFAULT '0',
-  `phone` varchar(100) DEFAULT '0',
-  `email` varchar(100) DEFAULT '0',
+  `location_id` int(11) NOT NULL,
+  `staff_type_id` int(11) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `phone` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `birthday` datetime DEFAULT NULL,
-  `photo` varchar(250) DEFAULT '0',
+  `photo` varchar(250) DEFAULT NULL,
   `cv` text,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -83,8 +88,8 @@ CREATE TABLE IF NOT EXISTS `faculty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `faculty_disciplines` (
-  `faculty_id` int(11) DEFAULT NULL,
-  `disciplines_id` int(11) DEFAULT NULL,
+  `faculty_id` int(11) NOT NULL,
+  `disciplines_id` int(11) NOT NULL,
   `active` smallint(1) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -95,8 +100,8 @@ CREATE TABLE IF NOT EXISTS `faculty_disciplines` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `faculty_students` (
-  `faculty_id` int(11) DEFAULT NULL,
-  `student_id` int(11) DEFAULT NULL,
+  `faculty_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
   `active` tinyint(1) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -108,9 +113,9 @@ CREATE TABLE IF NOT EXISTS `faculty_students` (
 
 CREATE TABLE IF NOT EXISTS `home_works` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(250) NOT NULL DEFAULT '0',
-  `description` text NOT NULL,
-  `deadline` datetime NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `description` text,
+  `deadline` datetime DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -118,9 +123,9 @@ CREATE TABLE IF NOT EXISTS `home_works` (
 
 CREATE TABLE IF NOT EXISTS `locations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `country_id` int(11) NOT NULL DEFAULT '0',
-  `city` varchar(50) NOT NULL DEFAULT '0',
-  `city_code` varchar(50) NOT NULL DEFAULT '0',
+  `country_id` int(11) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `city_code` varchar(50) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -130,20 +135,32 @@ CREATE TABLE IF NOT EXISTS `locations` (
 
 CREATE TABLE IF NOT EXISTS `staff_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `staff` varchar(100) NOT NULL DEFAULT '0',
+  `staff` varchar(100) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+/*!40000 ALTER TABLE `staff_types` DISABLE KEYS */;
+INSERT INTO `staff_types` (`id`, `staff`) VALUES
+  (1, 'Department Chairs'),
+  (2, 'Dean'),
+  (3, 'Vice Presidents'),
+  (4, 'President'),
+  (5, 'Adjunct Professors'),
+  (6, 'Assistant Professors'),
+  (7, 'Associate Professors'),
+  (8, 'Professors');
+/*!40000 ALTER TABLE `staff_types` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `students` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `location_id` int(11) NOT NULL DEFAULT '0',
-  `fitst_name` varchar(100) NOT NULL DEFAULT '0',
-  `last_name` varchar(100) NOT NULL DEFAULT '0',
-  `avatar` varchar(250) NOT NULL DEFAULT '0',
-  `email` varchar(100) NOT NULL DEFAULT '0',
-  `phone` varchar(100) NOT NULL DEFAULT '0',
+  `location_id` int(11) NOT NULL,
+  `fitst_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `avatar` varchar(250) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `phone` varchar(100) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -166,9 +183,9 @@ CREATE TABLE IF NOT EXISTS `students_home_works` (
 
 CREATE TABLE IF NOT EXISTS `universities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `location_id` int(11) NOT NULL DEFAULT '0',
-  `head_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(250) NOT NULL DEFAULT '0',
+  `location_id` int(11) NOT NULL,
+  `head_id` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
   `url` varchar(250) DEFAULT NULL,
   `logo` varchar(250) DEFAULT NULL,
   `description` text,

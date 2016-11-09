@@ -25,14 +25,8 @@ abstract class AbstractModel implements ModelInterface
     {
         $class_name = end(explode('\\', get_called_class()));
         $result = $this->handler->query('SELECT * FROM '.strtolower($class_name));
-        $result->setFetchMode(\PDO::FETCH_CLASS, get_called_class());
-        $collection = [];
-        while ($r = $result->fetch()) {
-            $r->setHandler($this->handler);
-            $collection[] = $r;
-        }
-
-        return $collection;
+        $result->setFetchMode(\PDO::FETCH_CLASS|PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, get_called_class());
+        return $result->fetchAll();
     }
 
     public function getForTwig()

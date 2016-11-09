@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Faker;
+use Models\Countries;
 
 class DbsampledataController extends AbstractController
 {
@@ -39,16 +40,23 @@ class DbsampledataController extends AbstractController
         $UniversitiesData = [];
         for ($i = 0; $i < $items_number; ++$i) {
             $countryData[] = "('{$faker->country}','{$faker->countryCode}','{$faker->imageUrl(50, 'png')}')";
+            $disciplinesData[] = "('{$faker->sentence(6, true)}','{$faker->paragraphs(4, true)}')";
         }
 
         $queryCountries = 'INSERT INTO `countries` (`name`,`iso_code`,`flag`) VALUES '.implode(',', $countryData).';';
+        $queryDisciplines = 'INSERT INTO `disciplines` (`name`,`description`) VALUES '.implode(',', $disciplinesData).';';
 
-        $query = $queryCountries;
+
+        $query = $queryCountries . $queryDisciplines;
 
         $message = $query;
 
         $sql = $this->db->handler->prepare($query);
+
         $sql->execute();
+//        $countries = new Countries($this->db->handler);
+
+//        var_dump($countries->findAll());
 
         $this->view($view, [
             'message' => $message,
