@@ -1,8 +1,10 @@
 <?php
 
-namespace Core;
+namespace Controllers;
 
-abstract class Controller
+use Core\DataStorage;
+
+abstract class AbstractController implements ControllerInterface
 {
     protected $loader, $twig, $db, $baseUrl;
 
@@ -20,8 +22,7 @@ abstract class Controller
     protected function model($model)
     {
         $init_model = 'Models\\'.ucfirst($model);
-
-        return new $init_model();
+        return new $init_model($this->db->handler);
     }
 
     protected function view($view, $data = [])

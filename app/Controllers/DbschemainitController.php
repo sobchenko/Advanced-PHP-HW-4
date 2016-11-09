@@ -2,9 +2,7 @@
 
 namespace Controllers;
 
-use Core;
-
-class DbschemainitController extends Core\Controller implements ControllerInterface
+class DbschemainitController extends AbstractController
 {
     public function index($param = '')
     {

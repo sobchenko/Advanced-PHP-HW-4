@@ -14,7 +14,7 @@ class DataStorage
 
     public $message;
 
-    private $handler;
+    public $handler;
 
     protected $dbHost, $dbPort, $dbName, $dbUser, $dbPass;
 

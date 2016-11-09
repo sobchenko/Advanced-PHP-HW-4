@@ -2,9 +2,7 @@
 
 namespace Controllers;
 
-use Core;
-
-class DberrorController extends Core\Controller implements ControllerInterface
+class DberrorController extends AbstractController
 {
     public function index($param = '')
     {

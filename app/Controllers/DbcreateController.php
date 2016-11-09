@@ -2,9 +2,7 @@
 
 namespace Controllers;
 
-use Core;
-
-class DbcreateController extends Core\Controller implements ControllerInterface
+class DbcreateController extends AbstractController
 {
     public function index($param = '')
     {

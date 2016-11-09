@@ -2,9 +2,7 @@
 
 namespace Controllers;
 
-use Core;
-
-class HomeController extends Core\Controller implements ControllerInterface
+class HomeController extends AbstractController
 {
     public function index($param = '')
     {
