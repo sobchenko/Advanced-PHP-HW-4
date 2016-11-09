@@ -5,9 +5,9 @@
 
 CREATE TABLE IF NOT EXISTS `countries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL DEFAULT '0',
-  `iso_code` varchar(2) NOT NULL DEFAULT '0',
-  `flag` varchar(150) NOT NULL DEFAULT '0',
+  `name` varchar(100) NOT NULL,
+  `iso_code` varchar(2) NOT NULL,
+  `flag` varchar(150) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -15,10 +15,10 @@ CREATE TABLE IF NOT EXISTS `countries` (
 
 CREATE TABLE IF NOT EXISTS `departments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `head_id` int(11) NOT NULL DEFAULT '0',
-  `university_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(250) NOT NULL DEFAULT '0',
-  `description` varchar(250) NOT NULL DEFAULT '0',
+  `head_id` int(11) NOT NULL,
+  `university_id` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `description` varchar(250) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS `departments` (
 
 CREATE TABLE IF NOT EXISTS `disciplines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL DEFAULT '0',
+  `name` varchar(100) NOT NULL,
   `description` text,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -86,8 +86,8 @@ CREATE TABLE IF NOT EXISTS `faculty_disciplines` (
   `faculty_id` int(11) DEFAULT NULL,
   `disciplines_id` int(11) DEFAULT NULL,
   `active` smallint(1) DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `FK_faculty_disciplines_faculty` (`faculty_id`),
   KEY `FK_faculty_disciplines_disciplines` (`disciplines_id`),
   CONSTRAINT `FK_faculty_disciplines_disciplines` FOREIGN KEY (`disciplines_id`) REFERENCES `disciplines` (`id`),
@@ -98,8 +98,8 @@ CREATE TABLE IF NOT EXISTS `faculty_students` (
   `faculty_id` int(11) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `FK_faculty_students_faculty` (`faculty_id`),
   KEY `FK_faculty_students_students` (`student_id`),
   CONSTRAINT `FK_faculty_students_faculty` FOREIGN KEY (`faculty_id`) REFERENCES `faculty` (`id`),
@@ -152,12 +152,12 @@ CREATE TABLE IF NOT EXISTS `students` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `students_home_works` (
-  `student_id` int(11) DEFAULT NULL,
-  `home_work_id` int(11) DEFAULT NULL,
+  `student_id` int(11) NOT NULL,
+  `home_work_id` int(11) NOT NULL,
   `grade` float DEFAULT NULL,
   `accepted` tinyint(1) DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `FK_students_home_works_students` (`student_id`),
   KEY `FK_students_home_works_home_works` (`home_work_id`),
   CONSTRAINT `FK_students_home_works_home_works` FOREIGN KEY (`home_work_id`) REFERENCES `home_works` (`id`),
@@ -169,11 +169,11 @@ CREATE TABLE IF NOT EXISTS `universities` (
   `location_id` int(11) NOT NULL DEFAULT '0',
   `head_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(250) NOT NULL DEFAULT '0',
-  `url` varchar(250) DEFAULT '0',
-  `logo` varchar(250) DEFAULT '0',
+  `url` varchar(250) DEFAULT NULL,
+  `logo` varchar(250) DEFAULT NULL,
   `description` text,
   `history` longtext,
-  `foundation_date` datetime DEFAULT NULL,
+  `foundation_date` date DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
