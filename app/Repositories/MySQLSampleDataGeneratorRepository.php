@@ -1,10 +1,16 @@
 <?php
 
-namespace Models;
+namespace Repositories;
 
 use Faker;
+use Models\Country;
+use Models\Discipline;
+use Models\Faculty;
+use Models\Location;
+use Models\StaffType;
+use Models\University;
 
-class SampleDataGenerator
+class MySQLSampleDataGeneratorRepository
 {
     /**
      * @var \PDO
@@ -75,27 +81,30 @@ class SampleDataGenerator
     public function generateHomeWorks($itemNumbers = 10)
     {
         $table = 'home_works';
+        $disciplineRepository = new CountryRepository($this->db, Discipline::class, 'disciplines');
+        $disciplineIDs = $disciplineRepository->idAll();
         $data = [];
         for ($i = 0; $i < $itemNumbers; ++$i) {
+            $rndDisciplineID = $disciplineIDs[rand(0, count($disciplineIDs) - 1)];
             $data[] = "(
+                {$rndDisciplineID},
                 {$this->db->quote($this->faker->sentence(3, true))},
                 {$this->db->quote($this->faker->paragraphs(2, true))},
                 {$this->db->quote($this->faker->date('Y-m-d', 'now').' '.$this->faker->time('H:i:s', 'now'))}
             )";
         }
-        $sqlQuery = "INSERT INTO `{$table}` (`name`, `description`, `deadline`) VALUES ".implode(',', $data).';';
+        $sqlQuery = "INSERT INTO `{$table}` (`discipline_id`, `name`, `description`, `deadline`) VALUES ".implode(',', $data).';';
         $this->db->query($sqlQuery);
     }
 
     public function generateLocations($itemNumbers = 10)
     {
         $table = 'locations';
+        $countryRepository = new CountryRepository($this->db, Country::class, 'countries');
+        $countryIDs = $countryRepository->idAll();
         $data = [];
-        $countries = new Countries($this->db);
-        $countriesIDs = $countries->idAll();
-
         for ($i = 0; $i < $itemNumbers; ++$i) {
-            $rndCountryId = $countriesIDs[rand(0, count($countriesIDs) - 1)];
+            $rndCountryId = $countryIDs[rand(0, count($countryIDs) - 1)];
             $data[] = "(
                 {$rndCountryId},
                 {$this->db->quote($this->faker->city)},
@@ -112,14 +121,14 @@ class SampleDataGenerator
     {
         $table = 'faculties';
         $data = [];
-        $locations = new Locations($this->db);
-        $locationsIDs = $locations->idAll();
-        $staffTypes = new StaffTypes($this->db);
-        $staffTypeIDs = $staffTypes->idAll();
+        $locationRepository = new LocationRepository($this->db, Location::class, 'locations');
+        $locationIDs = $locationRepository->idAll();
+        $staffTypeRepository = new StaffTypeRepository($this->db, StaffType::class, 'staff_types');
+        $staffTypeIDs = $staffTypeRepository->idAll();
 
         for ($i = 0; $i < $itemNumbers; ++$i) {
             $gender = $this->getRndGender();
-            $rndLocationsID = $locationsIDs[rand(0, count($locationsIDs) - 1)];
+            $rndLocationsID = $locationIDs[rand(0, count($locationIDs) - 1)];
             $rndStaffTypeID = $staffTypeIDs[rand(0, count($staffTypeIDs) - 1)];
             $fName = $this->faker->firstName($gender);
             $lName = $this->faker->lastName;
@@ -153,14 +162,14 @@ class SampleDataGenerator
     {
         $table = 'universities';
         $data = [];
-        $locations = new Locations($this->db);
-        $locationsIDs = $locations->idAll();
-        $faculties = new Faculties($this->db);
-        $facultiesIDs = $faculties->idAll();
+        $locationRepository = new LocationRepository($this->db, Location::class, 'locations');
+        $locationIDs = $locationRepository->idAll();
+        $facultyRepository = new FacultyRepository($this->db, Faculty::class, 'faculties');
+        $facultyIDs = $facultyRepository->idAll();
 
         for ($i = 0; $i < $itemNumbers; ++$i) {
-            $rndLocationsID = $locationsIDs[rand(0, count($locationsIDs) - 1)];
-            $rndFacultyID = $facultiesIDs[rand(0, count($facultiesIDs) - 1)];
+            $rndLocationsID = $locationIDs[rand(0, count($locationIDs) - 1)];
+            $rndFacultyID = $facultyIDs[rand(0, count($facultyIDs) - 1)];
             $data[] = "(
                 {$rndLocationsID},
                 {$rndFacultyID},
@@ -186,8 +195,8 @@ class SampleDataGenerator
     {
         $table = 'students';
         $data = [];
-        $locations = new Locations($this->db);
-        $locationIDs = $locations->idAll();
+        $locationRepository = new LocationRepository($this->db, Location::class, 'locations');
+        $locationIDs = $locationRepository->idAll();
 
         for ($i = 0; $i < $itemNumbers; ++$i) {
             $rndLocationID = $locationIDs[rand(0, count($locationIDs) - 1)];
@@ -216,10 +225,10 @@ class SampleDataGenerator
     {
         $table = 'departments';
         $data = [];
-        $universities = new Universities($this->db);
-        $universityIDs = $universities->idAll();
-        $faculties = new Faculties($this->db);
-        $facultyIDs = $faculties->idAll();
+        $universityRepository = new UniversityRepository($this->db, University::class, 'universities');
+        $universityIDs = $universityRepository->idAll();
+        $facultyRepository = new FacultyRepository($this->db, Faculty::class, 'faculties');
+        $facultyIDs = $facultyRepository->idAll();
 
         for ($i = 0; $i < $itemNumbers; ++$i) {
             $rndUniversityID = $universityIDs[rand(0, count($universityIDs) - 1)];

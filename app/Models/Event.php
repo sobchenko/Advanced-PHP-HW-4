@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class Events extends AbstractModel
+class Event extends AbstractModel
 {
     public $id;
     public $event_type;

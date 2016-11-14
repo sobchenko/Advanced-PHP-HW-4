@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class Faculties extends AbstractModel
+class Faculty extends AbstractModel
 {
     public $id;
     public $inn;

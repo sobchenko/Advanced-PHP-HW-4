@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class StaffTypes extends AbstractModel
+class StaffType extends AbstractModel
 {
     public $id;
     public $staff;

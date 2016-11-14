@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class Locations extends AbstractModel
+class Location extends AbstractModel
 {
     public $id;
     public $country_id;

@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class Students extends AbstractModel
+class Student extends AbstractModel
 {
     public $id;
     public $location_id;

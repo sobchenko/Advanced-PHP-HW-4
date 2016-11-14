@@ -2,11 +2,13 @@
 
 namespace Repositories;
 
+use Models\Student;
+
 interface UserRepositoryInterface
 {
-    public function create($user);
+    public function create(Student $student);
 
-    public function remove($user);
+    public function remove(Student $student);
 
-    public function update($user);
+    public function update(Student $student);
 }

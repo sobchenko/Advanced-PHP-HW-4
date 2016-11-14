@@ -18,9 +18,8 @@ class SampledatageneratorController extends AbstractController
     public function generate($param = '')
     {
         $itemNumbers = $_POST['items_number'] ? $_POST['items_number'] : 20;
-        var_dump($itemNumbers);
-        $model = $this->model('SampleDataGenerator');
-        $model->generateAll($itemNumbers);
+        $repository = $this->repository('MySQLSampleDataGeneratorRepository');
+        $repository->generateAll($itemNumbers);
         $view = 'sample_data';
         $message = 'OK!';
         $this->view($view, [

@@ -2,11 +2,9 @@
 
 namespace Models;
 
-class Departments extends AbstractModel
+class Discipline extends AbstractModel
 {
     public $id;
-    public $head_id;
-    public $university_id;
     public $name;
     public $description;
 }

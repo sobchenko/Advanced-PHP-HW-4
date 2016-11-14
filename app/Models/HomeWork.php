@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class HomeWorks extends AbstractModel
+class HomeWork extends AbstractModel
 {
     public $id;
     public $name;

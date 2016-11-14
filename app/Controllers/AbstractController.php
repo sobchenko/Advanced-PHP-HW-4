@@ -29,19 +29,19 @@ abstract class AbstractController implements ControllerInterface
     {
         $init_model = 'Models\\'.ucfirst($model);
 
-        return new $init_model($this->db->handler);
+        return new $init_model();
     }
 
     /**
-     * @param string $model Name of the model
+     * @param string $repository Name of the repository
      *
-     * @return AbstractModel
+     * @return object
      */
-    protected function repository($repository)
+    protected function repository($repository, $class = null, $table = null)
     {
         $initRepository = 'Repositories\\'.ucfirst($repository);
 
-        return new $initRepository($this->db->handler);
+        return new $initRepository($this->db->handler, $class, $table);
     }
 
     /**

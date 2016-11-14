@@ -115,12 +115,15 @@ CREATE TABLE IF NOT EXISTS `faculties_students` (
 
 CREATE TABLE IF NOT EXISTS `home_works` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `discipline_id` INT(11) NULL DEFAULT NULL,
   `name` varchar(250) NOT NULL,
   `description` text,
   `deadline` datetime DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  INDEX `FK_home_works_disciplines` (`discipline_id`),
+  CONSTRAINT `FK_home_works_disciplines` FOREIGN KEY (`discipline_id`) REFERENCES `disciplines` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `locations` (
