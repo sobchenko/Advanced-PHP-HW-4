@@ -5,7 +5,7 @@ namespace Models;
 abstract class AbstractModel implements ModelInterface
 {
     /**
-//     * @var \PDO DB handler
+     * @var \PDO DB handler
      */
     protected $db;
 
@@ -49,11 +49,9 @@ abstract class AbstractModel implements ModelInterface
     }
 
     /**
-     * Set DB handler for a Class
+     * Set DB handler for a Class.
      *
      * @param \PDO $db
-     *
-     * @return void
      */
     protected function setHandler(\PDO $db)
     {
@@ -63,7 +61,7 @@ abstract class AbstractModel implements ModelInterface
     /**
      * @param $class_name
      *
-     * @return string       Prepared table name where all capital letters replaced with dash and small letter
+     * @return string Prepared table name where all capital letters replaced with dash and small letter
      */
     protected function tableNameFromClass($class_name)
     {

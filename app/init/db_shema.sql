@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `departments` (
   `head_id` int(11) NOT NULL,
   `university_id` int(11) NOT NULL,
   `name` varchar(250) NOT NULL,
-  `description` varchar(250) DEFAULT NULL,
+  `description` TEXT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -158,7 +158,7 @@ INSERT INTO `staff_types` (`id`, `staff`) VALUES
 CREATE TABLE IF NOT EXISTS `students` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `location_id` int(11) NOT NULL,
-  `fitst_name` varchar(100) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `sex` ENUM('M','F') NULL DEFAULT NULL,
   `avatar` varchar(250) DEFAULT NULL,
