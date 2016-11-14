@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Core\DataStorage;
+use Models\AbstractModel;
 
 abstract class AbstractController implements ControllerInterface
 {
@@ -19,6 +20,11 @@ abstract class AbstractController implements ControllerInterface
         }
     }
 
+    /**
+     * @param string $model Name of the model
+     *
+     * @return AbstractModel
+     */
     protected function model($model)
     {
         $init_model = 'Models\\'.ucfirst($model);
@@ -26,6 +32,26 @@ abstract class AbstractController implements ControllerInterface
         return new $init_model($this->db->handler);
     }
 
+    /**
+     * @param string $model Name of the model
+     *
+     * @return AbstractModel
+     */
+    protected function repository($repository)
+    {
+        $initRepository = 'Repositories\\'.ucfirst($repository);
+
+        return new $initRepository($this->db->handler);
+    }
+
+    /**
+     * Render view with $view name and incoming $data for rendering.
+     *
+     * @param string $view View Name
+     * @param array  $data Data to render
+     *
+     * @return string rendered page
+     */
     protected function view($view, $data = [])
     {
         $data['baseUrl'] = $this->baseUrl;

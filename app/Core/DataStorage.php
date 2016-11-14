@@ -18,6 +18,15 @@ class DataStorage
 
     protected $dbHost, $dbPort, $dbName, $dbUser, $dbPass;
 
+    /**
+     * DataStorage constructor.
+     *
+     * @param $dbHost
+     * @param $dbPort
+     * @param $dbName
+     * @param $dbUser
+     * @param $dbPass
+     */
     public function __construct($dbHost, $dbPort, $dbName, $dbUser, $dbPass)
     {
         $this->dbHost = $dbHost;

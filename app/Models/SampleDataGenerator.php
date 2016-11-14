@@ -224,7 +224,6 @@ class SampleDataGenerator
         for ($i = 0; $i < $itemNumbers; ++$i) {
             $rndUniversityID = $universityIDs[rand(0, count($universityIDs) - 1)];
             $rndFacultyID = $facultyIDs[rand(0, count($facultyIDs) - 1)];
-            $gender = $this->getRndGender();
             $data[] = "(
                 {$rndFacultyID},
                 {$rndUniversityID},

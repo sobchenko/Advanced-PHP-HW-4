@@ -2,11 +2,20 @@
 
 class App
 {
+    /**
+     * @var string
+     */
     protected $baseUrl;
     protected $controller = 'HomeController';
     protected $method = 'index';
     protected $params = [];
 
+    /**
+     * App constructor.
+     *
+     * @param string            $environment
+     * @param \Core\DataStorage $db
+     */
     public function __construct($environment, \Core\DataStorage $db)
     {
         $url = isset($_GET['url']) ? $_GET['url'] : null;

@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class StudentHomeWork
+class StudentsHomeWorks
 {
     public $student_id;
     public $home_work_id;
