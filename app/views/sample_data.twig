@@ -5,7 +5,7 @@
 
     {% if generate_section %}
         <h1>Sample data generation</h1>
-        <form method="POST" action="{{ baseUrl ~ '/dbsampledata/generate' }}">
+        <form method="POST" action="{{ baseUrl ~ '/sampledatagenerator/generate' }}">
             <div class="row">
                 <label for="items-number">Number of items to generate:</label>
                 <input class="form-control" type="text" id="items-number" name="items_number" value="{{ items_number }}">

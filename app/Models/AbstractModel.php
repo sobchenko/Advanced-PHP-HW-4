@@ -4,12 +4,15 @@ namespace Models;
 
 abstract class AbstractModel implements ModelInterface
 {
-    protected $handler;
+    /**
+//     * @var \PDO DB handler
+     */
+    protected $db;
 
-    public function __construct($handler = '')
+    public function __construct(\PDO $db = null)
     {
-        if ($handler) {
-            $this->setHandler($handler);
+        if ($db) {
+            $this->setHandler($db);
         }
     }
 
@@ -21,33 +24,50 @@ abstract class AbstractModel implements ModelInterface
     {
     }
 
+    /**
+     * @return array of a Objects
+     */
     public function findAll()
     {
         $class_name = end(explode('\\', get_called_class()));
-        $result = $this->handler->query('SELECT * FROM '.strtolower($class_name));
-        $result->setFetchMode(\PDO::FETCH_CLASS|PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, get_called_class());
+        $result = $this->db->query('SELECT * FROM '.$this->tableNameFromClass($class_name));
+        $result->setFetchMode(\PDO::FETCH_CLASS, get_called_class());
+
         return $result->fetchAll();
     }
 
-    public function getForTwig()
+    /**
+     * @return array of entities ID's
+     */
+    public function idAll()
     {
         $class_name = end(explode('\\', get_called_class()));
-        $result = $this->handler->query('SELECT * FROM '.strtolower($class_name));
-        $result->setFetchMode(\PDO::FETCH_CLASS, get_called_class());
-        $vars = get_class_vars(get_called_class());
-        while ($model = $result->fetch()) {
-            $r = '';
-            foreach ($vars as $k => $v) {
-                $r .= $model->$k.' ';
-            }
-            $collection[] = $r;
-        }
+        $result = $this->db->query('SELECT `id` FROM '.$this->tableNameFromClass($class_name));
+        $result->setFetchMode(\PDO::FETCH_COLUMN, 0);
 
-        return $collection;
+        return $result->fetchAll();
     }
 
-    protected function setHandler($handler)
+    /**
+     * Set DB handler for a Class
+     *
+     * @param \PDO $db
+     *
+     * @return void
+     */
+    protected function setHandler(\PDO $db)
     {
-        $this->handler = $handler;
+        $this->db = $db;
+    }
+
+    /**
+     * @param $class_name
+     *
+     * @return string       Prepared table name where all capital letters replaced with dash and small letter
+     */
+    protected function tableNameFromClass($class_name)
+    {
+        return strtolower(preg_replace('/\B([A-Z])/', '_$1', $class_name));
+//        return strtolower(preg_replace('/(?<=[a-z])([A-Z]+)/', '_$1', $class_name));
     }
 }
