@@ -4,6 +4,7 @@ namespace Repositories;
 
 use Faker;
 use Models\Country;
+use Models\Department;
 use Models\Discipline;
 use Models\Faculty;
 use Models\Location;
@@ -38,15 +39,8 @@ class MySQLSampleDataGeneratorRepository
         $this->generateUniversities($itemNumbers);
         $this->generateStudents(5 * $itemNumbers);
         $this->generateDepartments($itemNumbers);
-
-        $departmentData = [];
-        $facultyData = [];
-        $facultyDisciplinesData = [];
-        $facultyStudentsData = [];
-        $staffTypesData = [];
-        $studentsData = [];
-        $studentsHomeWorkData = [];
-        $UniversitiesData = [];
+        $this->generateFacultyDepartmentCorrespondence();
+        $this->generateFacultyDisciplineCorrespondence();
     }
 
     public function generateCountries($itemNumbers = 10)
@@ -111,7 +105,7 @@ class MySQLSampleDataGeneratorRepository
                 {$this->db->quote($this->faker->postcode)}
             )";
         }
-        unset($countries);
+        unset($countryRepository);
 
         $sqlQuery = "INSERT INTO `{$table}` (`country_id`, `city`, `postcode`) VALUES ".implode(',', $data).';';
         $this->db->query($sqlQuery);
@@ -147,8 +141,8 @@ class MySQLSampleDataGeneratorRepository
                 {$this->db->quote($this->faker->paragraphs(rand(2, 9), true))}
             )";
         }
-        unset($locations);
-        unset($staffTypes);
+        unset($locationRepository);
+        unset($staffTypeRepository);
 
         $sqlQuery = "
             INSERT INTO `{$table}` (`inn`, `location_id`, `staff_type_id`, `first_name`, `last_name`, `sex`,
@@ -181,8 +175,8 @@ class MySQLSampleDataGeneratorRepository
                 {$this->db->quote($this->faker->date('Y-m-d', 'now'))}
             )";
         }
-        unset($locations);
-        unset($faculties);
+        unset($locationRepository);
+        unset($facultyRepository);
         $sqlQuery = "
             INSERT INTO `{$table}` (`location_id`, `head_id`, `name`, `url`, `logo`, `description`, `history`,
             `foundation_date`) 
@@ -213,7 +207,7 @@ class MySQLSampleDataGeneratorRepository
                 {$this->db->quote($this->faker->e164PhoneNumber)}
             )";
         }
-        unset($locations);
+        unset($locationRepository);
         $sqlQuery = "
             INSERT INTO `{$table}` (`location_id`, `first_name`, `last_name`, `sex`, `avatar`, `email`, `phone`) 
             VALUES 
@@ -246,6 +240,55 @@ class MySQLSampleDataGeneratorRepository
             VALUES 
         ".implode(',', $data).';';
         $this->db->query($sqlQuery);
+    }
+
+    public function generateFacultyDepartmentCorrespondence()
+    {
+        $facultyRepository = new FacultyRepository($this->db, Faculty::class, 'faculties');
+        $facultyIDs = $facultyRepository->getAllFacultiesWithoutDepartment();
+        $departmentRepository = new DepartmentRepository($this->db, Department::class, 'departments');
+        $departmentIDs = $departmentRepository->idAll();
+        $data = [];
+        for ($i = 0; $i < count($facultyIDs); ++$i) {
+            $rndDepartmentIDs = $departmentIDs[rand(0, count($departmentIDs) - 1)];
+            $data[] = "({$facultyIDs[$i]->id}, {$rndDepartmentIDs}, 1)";
+        }
+        unset($facultyRepository);
+        unset($departmentRepository);
+        $table = 'faculties_departments';
+        if (!empty($data)) {
+            $sqlQuery = "
+                INSERT INTO `{$table}` (`faculty_id`, `department_id`, `active`) 
+                VALUES 
+            ".implode(',', $data).';';
+            $this->db->query($sqlQuery);
+        }
+    }
+
+    public function generateFacultyDisciplineCorrespondence()
+    {
+        $facultyRepository = new FacultyRepository($this->db, Faculty::class, 'faculties');
+        $facultyIDs = $facultyRepository->getAllFacultiesWithoutDisciplines();
+        $disciplineRepository = new DisciplineRepository($this->db, Discipline::class, 'disciplines');
+        $disciplineIDs = $disciplineRepository->idAll();
+        $data = [];
+        for ($i = 0; $i < count($facultyIDs); ++$i) {
+            $o = rand(2, 10);
+            for ($j = 0; $j < $o; ++$j) {
+                $rndDisciplineIDs = $disciplineIDs[rand(0, count($disciplineIDs) - 1)];
+                $data[] = "({$facultyIDs[$i]->id}, {$rndDisciplineIDs}, 1)";
+            }
+        }
+        unset($facultyRepository);
+        unset($departmentRepository);
+        $table = 'faculties_disciplines';
+        if (!empty($data)) {
+            $sqlQuery = "
+                INSERT INTO `{$table}` (`faculty_id`, `discipline_id`, `active`) 
+                VALUES 
+            ".implode(',', $data).';';
+            $this->db->query($sqlQuery);
+        }
     }
 
     /**

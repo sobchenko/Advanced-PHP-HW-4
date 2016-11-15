@@ -89,6 +89,18 @@ CREATE TABLE IF NOT EXISTS `faculties` (
   CONSTRAINT `FK_faculties_staff_types` FOREIGN KEY (`staff_type_id`) REFERENCES `staff_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `faculties_departments` (
+  `faculty_id` INT(11) NOT NULL,
+  `department_id` INT(11) NOT NULL,
+  `active` SMALLINT(1) NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX `FK_faculties_departments_faculties` (`faculty_id`),
+  INDEX `FK_facultues_departments_departments` (`department_id`),
+  CONSTRAINT `FK_faculties_departments_departments` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`),
+  CONSTRAINT `FK_faculties_departments_faculties` FOREIGN KEY (`faculty_id`) REFERENCES `faculties` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `faculties_disciplines` (
   `faculty_id` int(11) NOT NULL,
   `discipline_id` int(11) NOT NULL,
