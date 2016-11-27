@@ -1,0 +1,7 @@
+parameters:
+    db_host: localhost
+    db_port: 3306
+    db_name: geekhub_hw4
+    db_user: root
+    db_pass:
+    environment: dev

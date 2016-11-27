@@ -1,0 +1,17 @@
+{
+    "require": {
+        "php": ">=5.5.0",
+        "symfony/yaml": "^3.1",
+        "twig/twig": "^1.27",
+        "fzaninotto/faker": "^1.6"
+    },
+    "autoload": {
+        "classmap": [
+            "app/"
+        ]
+    },
+    "scripts": {
+        "start": "php -S 0.0.0.0:8080 -t public public/index.php",
+        "test": "phpunit"
+    }
+}
